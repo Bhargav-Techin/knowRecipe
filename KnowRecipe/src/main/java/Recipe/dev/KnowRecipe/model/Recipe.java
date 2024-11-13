@@ -20,10 +20,9 @@ public class Recipe {
 
     @ManyToOne
     private User user;
-
     private String image;
     private String description;
-    private boolean isVeg;
+    private boolean veg;
     private LocalDateTime createAt;
     private List<Long> likes = new ArrayList<>();
 }
