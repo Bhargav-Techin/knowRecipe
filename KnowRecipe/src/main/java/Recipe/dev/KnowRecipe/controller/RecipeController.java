@@ -2,6 +2,7 @@ package Recipe.dev.KnowRecipe.controller;
 
 
 import Recipe.dev.KnowRecipe.model.Recipe;
+import Recipe.dev.KnowRecipe.model.User;
 import Recipe.dev.KnowRecipe.service.RecipeService;
 import Recipe.dev.KnowRecipe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,10 @@ public class RecipeController {
     private UserService userService;
 
 
-    @PostMapping("/user/{userId}")
-    public Recipe createRecipe(@RequestBody Recipe recipe , @PathVariable Long userId) throws Exception {
-        System.out.println(recipe);
-        return recipeService.createRecipe(recipe,userId);
+    @PostMapping()
+    public Recipe createRecipe(@RequestBody Recipe recipe , @RequestHeader("Authorization") String jwt) throws Exception {
+        User user = userService.findUserByJwt(jwt);
+        return recipeService.createRecipe(recipe,user.getId());
     }
 
     @GetMapping("/{recipeId}")
@@ -48,10 +49,10 @@ public class RecipeController {
         return recipeService.findAllRecipe();
     }
 
-    @PutMapping("/{recipeId}/like/user/{userId}")
-    public Map<String, Object> likeRecipe(@PathVariable Long recipeId, @PathVariable Long userId) throws Exception {
-
-        return recipeService.likeRecipe(recipeId,userId);
+    @PutMapping("/{recipeId}/like")
+    public Map<String, Object> likeRecipe(@PathVariable Long recipeId, @RequestHeader("Authorization") String jwt) throws Exception {
+        User user = userService.findUserByJwt(jwt);
+        return recipeService.likeRecipe(recipeId, user.getId());
     }
 
 }

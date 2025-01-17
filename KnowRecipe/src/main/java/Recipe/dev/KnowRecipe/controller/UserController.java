@@ -12,18 +12,26 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/api/users")
-    public User createUser(@RequestBody User user) throws Exception{
-        return userService.createUser(user);
-    }
+//    @PostMapping("/api/users")
+//    public User createUser(@RequestBody User user) throws Exception{
+//        return userService.createUser(user);
+//    }
+//
+//    @GetMapping("api/user/{userId}")
+//    public User findUserById(@PathVariable Long userId) throws Exception{
+//        return userService.findUserById(userId);
+//    }
+//
+//
+//
+//    @DeleteMapping("/api/users/{userId}")
+//    public String deleteUser(@PathVariable Long userId) throws Exception{
+//        return userService.deleteUser(userId);
+//    }
 
-    @GetMapping("api/user/{userId}")
-    public User findUserById(@PathVariable Long userId) throws Exception{
-        return userService.findUserById(userId);
-    }
 
-    @DeleteMapping("/api/users/{userId}")
-    public String deleteUser(@PathVariable Long userId) throws Exception{
-        return userService.deleteUser(userId);
+    @GetMapping("api/user/profile")
+    public User findUserByJwt(@RequestHeader("Authorization") String jwt) throws Exception{
+        return userService.findUserByJwt(jwt);
     }
 }
