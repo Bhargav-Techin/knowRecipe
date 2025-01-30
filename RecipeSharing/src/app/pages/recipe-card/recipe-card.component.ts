@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../services/recipe/recipe.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { Subscription } from 'rxjs';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-recipe-card',
@@ -22,7 +23,7 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
   dialog = inject(MatDialog);
   private subscriptions: Subscription = new Subscription();
 
-  constructor( private authService: AuthService, private recipeService: RecipeService) { }
+  constructor( private authService: AuthService, private recipeService: RecipeService, private snackbar: SnackbarService) { }
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -52,10 +53,10 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
       if (this.isUserOwner()) {
         this.recipeService.deleteRecipe(this.recipe.id).subscribe(
           (response) => {
-            console.log('Recipe deleted:', response);
+            this.snackbar.show(response, 'Close', 'success-snackbar');
           },
           (error) => {
-            console.error('Error deleting recipe:', error);
+            this.snackbar.show('Failed to delete the recipe. Please try again.'+ error.error, 'Close', 'error-snackbar');
           }
         );
       } else {

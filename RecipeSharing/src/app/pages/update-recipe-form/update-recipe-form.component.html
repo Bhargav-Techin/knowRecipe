@@ -1,11 +1,12 @@
 <h2 mat-dialog-title class="text-lg font-bold mb-4">Update Recipe</h2>
-<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmitUpdateRecipe()">
   <mat-dialog-content class="flex flex-col w-96 p-2 space-y-2">
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" required />
-      @if (recipeForm.get('title')?.hasError('required') && recipeForm.get('title')?.touched) {
-        <mat-error>You must enter a title</mat-error>
+      @if (recipeForm.get('title')?.hasError('required') &&
+      recipeForm.get('title')?.touched) {
+      <mat-error>You must enter a title</mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
@@ -14,22 +15,28 @@
         <mat-option value="true">Vegetarian</mat-option>
         <mat-option value="false">Non-Vegetarian</mat-option>
       </mat-select>
-      @if (recipeForm.get('veg')?.hasError('required') && recipeForm.get('veg')?.touched) {
-        <mat-error>You must select a recipe type</mat-error>
+      @if (recipeForm.get('veg')?.hasError('required') &&
+      recipeForm.get('veg')?.touched) {
+      <mat-error>You must select a recipe type</mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Image URL</mat-label>
       <input matInput formControlName="image" required />
-      @if (recipeForm.get('image')?.hasError('required') && recipeForm.get('image')?.touched) {
-        <mat-error>You must enter an image URL</mat-error>
+      @if (recipeForm.get('image')?.hasError('required') &&
+      recipeForm.get('image')?.touched) {
+      <mat-error>You must enter an image URL</mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description" required></textarea>
-      @if (recipeForm.get('description')?.hasError('required') && recipeForm.get('description')?.touched) {
-        <mat-error>You must enter a description</mat-error>
+      @if (recipeForm.get('description')?.hasError('required') &&
+      recipeForm.get('description')?.touched) {
+      <mat-error>You must enter a description</mat-error>
+      } @if (recipeForm.get('description')?.hasError('maxlength') &&
+      recipeForm.get('description')?.touched) {
+      <mat-error> Description cannot exceed 500 characters </mat-error>
       }
     </mat-form-field>
   </mat-dialog-content>

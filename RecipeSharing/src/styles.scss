@@ -17,9 +17,7 @@
     @include mat.snack-bar-overrides(
       (
         container-color: rgb(224, 248, 224),
-        supporting-text-color: rgb(31, 187, 0),
-        button-color: rgb(0, 0, 0),
-        // Customize the close button color
+        supporting-text-color: rgb(31, 187, 0)
       )
     );
   }
@@ -29,9 +27,7 @@
     @include mat.snack-bar-overrides(
       (
         container-color: rgb(255, 232, 232),
-        supporting-text-color: rgb(255, 0, 0),
-        button-color: rgb(0, 0, 0)
-        // Customize the close button color
+        supporting-text-color: rgb(255, 0, 0)
       )
     );
   }

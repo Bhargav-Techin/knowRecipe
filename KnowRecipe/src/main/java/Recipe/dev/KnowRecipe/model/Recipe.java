@@ -21,6 +21,8 @@ public class Recipe {
     @ManyToOne
     private User user;
     private String image;
+
+    @Column(length = 500)
     private String description;
     private boolean veg;
     private LocalDateTime createAt;

@@ -31,7 +31,7 @@ export class CreateRecipeFormComponent implements OnInit {
       title: ['', Validators.required],
       veg: ['', Validators.required],
       image: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', [Validators.required, Validators.maxLength(500)]]
     });
   }
 
