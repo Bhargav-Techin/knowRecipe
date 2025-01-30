@@ -1,0 +1,26 @@
+<mat-toolbar class="flex items-center justify-between">
+  <span>My App</span>
+
+  <div class="flex items-center justify-between">
+    <button mat-stroked-button class="mr-2" [matMenuTriggerFor]="profile">
+      <span>{{ getInitials(user?.fullName) }}</span>
+      <mat-menu #profile="matMenu" class="p-2 text-white">
+        <span>{{ user?.fullName }}</span>
+        <mat-divider></mat-divider>
+        <span>{{ user?.email }}</span>
+      </mat-menu>
+    </button>
+    <button
+      mat-icon-button
+      class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon"
+      (click)="onLogout()"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example logout icon"
+        fontIcon="logout"
+      ></mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

@@ -6,6 +6,8 @@ import Recipe.dev.KnowRecipe.model.User;
 import Recipe.dev.KnowRecipe.service.RecipeService;
 import Recipe.dev.KnowRecipe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,14 +36,33 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{recipeId}")
-    public String deleteRecipe(@PathVariable Long recipeId) throws Exception {
-        recipeService.deleteRecipe(recipeId);
-        return "recipe deleted successfully";
+    public ResponseEntity<String> deleteRecipe(@PathVariable Long recipeId, @RequestHeader("Authorization") String jwt) {
+        try {
+            User user = userService.findUserByJwt(jwt);
+            Recipe existingRecipe = recipeService.findRecipeById(recipeId);
+
+            if (existingRecipe.getUser().getEmail().equals(user.getEmail())) {
+                recipeService.deleteRecipe(recipeId);
+                return ResponseEntity.ok("Recipe deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not authorized to delete this recipe.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
     }
 
+
     @PutMapping("/update/{recipeId}")
-    public Recipe updateRecipe(@RequestBody Recipe recipe, @PathVariable Long recipeId) throws Exception{
-        return recipeService.updateRecipe(recipe,recipeId);
+    public Recipe updateRecipe(@RequestBody Recipe recipe, @PathVariable Long recipeId, @RequestHeader("Authorization") String jwt) throws Exception {
+        User user = userService.findUserByJwt(jwt);
+        Recipe existingRecipe = recipeService.findRecipeById(recipeId);
+
+        if (existingRecipe.getUser().getEmail().equals(user.getEmail())) {
+            return recipeService.updateRecipe(recipe, recipeId);
+        } else {
+            throw new Exception("You are not authorized to update this recipe.");
+        }
     }
 
     @GetMapping()

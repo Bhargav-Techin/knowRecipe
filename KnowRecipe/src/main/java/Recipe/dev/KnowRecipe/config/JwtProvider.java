@@ -23,6 +23,7 @@ public class JwtProvider {
                 .claim("email", email) // Add email claim
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour validity
+//                .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7 days validity
                 .signWith(key, SignatureAlgorithm.HS256) // Use the consistent signing key
                 .compact();
     }

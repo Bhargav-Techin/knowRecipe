@@ -1,0 +1,172 @@
+
+<div class="flex justify-center items-center h-screen bg-gray-900">
+  <div class="container flex shadow-lg rounded-xl overflow-hidden w-auto">
+    <!-- Left Section with Image -->
+    <div class="image-section relative overflow-hidden flex items-center w-1/2">
+      @if (isRegistered) {
+      <div class="register-image">
+        <img
+          src="https://img.sndimg.com/food/image/upload/q_92,fl_progressive/v1/img/recipes/74/48/3/nxAqazgQa2Lq3bQreAAU_098-grilled-beer-chicken.jpg"
+          alt="Register"
+        />
+        <div
+          class="overlay text-white absolute inset-0 flex flex-col justify-center items-center text-center bg-black/50"
+        >
+          <h2 class="text-3xl font-bold mb-4">Join Us!</h2>
+          <p class="text-lg">Register to unlock exciting opportunities.</p>
+        </div>
+      </div>
+      } @else {
+      <div class="login-image">
+        <img
+          src="https://th.bing.com/th/id/OIP.JrFWrkKOgvsFeMa2wap_HwHaE8?rs=1&pid=ImgDetMain"
+          alt="Login"
+        />
+        <div
+          class="overlay text-white absolute inset-0 flex flex-col justify-center items-center text-center bg-black/50"
+        >
+          <h2 class="text-3xl font-bold mb-4">Welcome Back!</h2>
+          <p class="text-lg">Login to explore the amazing features.</p>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Right Section with Form -->
+    <div
+      class="form-section w-1/2 h-full bg-gray-800 text-white flex items-center justify-center"
+    >
+      <div class="form-content w-auto m-4">
+        @if (isRegistered) {
+        <!-- Registration Form -->
+        <h2 mat-dialog-title class="text-xl font-bold mb-4 text-center">
+          Register
+        </h2>
+        <form
+          [formGroup]="registrationForm"
+          (ngSubmit)="onSubmitRegistration()"
+        >
+          <mat-dialog-content class="flex flex-col w-96 p-2 space-y-4">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="fullName" required />
+              @if (registrationForm.get('fullName')!.invalid &&
+              registrationForm.get('fullName')!.touched) {
+              <mat-error>Full Name is required.</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" type="email" required />
+              @if (registrationForm.get('email')!.invalid &&
+              registrationForm.get('email')!.touched) {
+              <mat-error>Enter a valid email address.</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                [type]="hide() ? 'password' : 'text'"
+                formControlName="password"
+                required
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="clickEvent($event)"
+              >
+                <mat-icon>{{
+                  hide() ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+              @if (registrationForm.get('password')!.invalid &&
+              registrationForm.get('password')!.touched) {
+              <mat-error>Password is required.</mat-error>
+              }
+            </mat-form-field>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              cdkFocusInitial
+              class="bg-[#ffabf3] text-[#5b005b] font-semibold w-full py-2 rounded hover:bg-[#e09acb] transition-colors duration-300"
+            >
+              SignUp
+            </button>
+          </mat-dialog-content>
+          <mat-dialog-actions align="center" class="p-4 space-x-2">
+            <p class="text-sm text-gray-400">
+              Already have an account?
+              <span
+                class="text-blue-400 cursor-pointer hover:underline font-semibold"
+                (click)="isRegistered = false"
+                >Login</span
+              >
+            </p>
+          </mat-dialog-actions>
+        </form>
+        } @else {
+        <!-- Login Form -->
+        <h2 mat-dialog-title class="text-lg font-bold mb-4 text-center">
+          Login
+        </h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+          <mat-dialog-content class="flex flex-col w-96 p-2 space-y-4">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" type="email" required />
+              @if (loginForm.get('email')!.invalid &&
+              loginForm.get('email')!.touched) {
+              <mat-error>Enter a valid email address.</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                [type]="hide() ? 'password' : 'text'"
+                formControlName="password"
+                required
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="clickEvent($event)"
+              >
+                <mat-icon>{{
+                  hide() ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+              @if (loginForm.get('password')!.invalid &&
+              loginForm.get('password')!.touched) {
+              <mat-error>Password is required.</mat-error>
+              }
+            </mat-form-field>
+            <button
+              mat-flat-button
+              type="submit"
+              cdkFocusInitial
+              class="bg-[#ffabf3] text-[#5b005b] font-semibold w-full py-2 rounded hover:bg-[#e09acb] transition-colors duration-300"
+            >
+              Login
+            </button>
+          </mat-dialog-content>
+          <mat-dialog-actions align="center" class="p-4 space-x-2">
+            <p class="text-sm text-gray-400">
+              Don’t have an account?
+              <span
+                class="text-blue-400 cursor-pointer hover:underline font-semibold"
+                (click)="isRegistered = true"
+                >Sign Up</span
+              >
+            </p>
+          </mat-dialog-actions>
+        </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>

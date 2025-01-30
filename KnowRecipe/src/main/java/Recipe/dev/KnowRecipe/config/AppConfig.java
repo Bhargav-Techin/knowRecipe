@@ -1,10 +1,8 @@
 package Recipe.dev.KnowRecipe.config;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,13 +13,10 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-
 import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-
-
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +42,7 @@ public class AppConfig {
     private CorsConfigurationSource corsConfigarationSource() {
         return request -> {
             CorsConfiguration cfg = new CorsConfiguration();
-            cfg.setAllowedOrigins(Collections.singletonList("http://your-frontend-domain.com")); // Replace with your frontend domain
+            cfg.setAllowedOrigins(Collections.singletonList("http://localhost:4200")); // Allow requests from your frontend domain
             cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             cfg.setAllowedHeaders(List.of("Authorization", "Content-Type"));
             cfg.setExposedHeaders(List.of("Authorization"));

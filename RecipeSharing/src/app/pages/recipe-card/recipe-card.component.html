@@ -1,0 +1,64 @@
+<mat-card class="example-card fixed-card" appearance="outlined">
+  <mat-card-header class="felx justify-between">
+    <mat-card-title class="text-white">{{
+      recipe.title | uppercase
+    }}</mat-card-title>
+    <mat-card-subtitle class="text-white"
+      >by {{ recipe.user.fullName }}</mat-card-subtitle
+    >
+    <div [ngClass]="{'veg-tag': recipe.veg, 'non-veg-tag': !recipe.veg}">
+      <div [ngClass]="{'veg-tag-inner': recipe.veg, 'non-veg-tag-inner': !recipe.veg}">
+      
+      </div>
+    </div>
+  </mat-card-header>
+  <img
+    mat-card-image
+    [src]="recipe.image"
+    [alt]="'photo of ' + (recipe.title | uppercase)"
+    class="object-cover fixed-image"
+  />
+  <mat-card-content class="scrollable-content">
+    <p class="text-white">
+      {{ recipe.description }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions class="flex justify-between fixed-actions">
+    <div class="flex gap-1">
+      <button mat-mini-fab>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example favorite icon"
+          fontIcon="favorite"
+        ></mat-icon>
+      </button>
+      @if(isUserOwner()){
+      <button mat-mini-fab (click)="openDialog()">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example edit icon"
+          fontIcon="edit"
+        ></mat-icon>
+      </button>
+      }
+      <button mat-mini-fab>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example share icon"
+          fontIcon="share"
+        ></mat-icon>
+      </button>
+    </div>
+    <div>
+      @if(isUserOwner()){
+      <button mat-mini-fab (click)="ondelete()">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example delete icon"
+          fontIcon="delete"
+        ></mat-icon>
+      </button>
+      }
+    </div>
+  </mat-card-actions>
+</mat-card>
