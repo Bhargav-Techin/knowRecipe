@@ -18,10 +18,13 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
   styleUrls: ['./recipe-card.component.scss']
 })
 export class RecipeCardComponent implements OnInit, OnDestroy {
+
   @Input() recipe: any;
   user: any;
   dialog = inject(MatDialog);
   private subscriptions: Subscription = new Subscription();
+  isFavorite: boolean = false;
+  likeNumber: number = 0;
 
   constructor( private authService: AuthService, private recipeService: RecipeService, private snackbar: SnackbarService) { }
 
@@ -31,6 +34,11 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
         this.user = data.user;
       })
     );
+
+    this.recipeService.getLikes(this.recipe.id).subscribe((likes) => {
+      this.isFavorite = likes.includes(this.user.id);
+      this.likeNumber = likes.length;
+    });
   }
 
   ngOnDestroy() {
@@ -38,14 +46,25 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
   }
 
   openDialog() {
-      this.dialog.open(UpdateRecipeFormComponent, {
-        data:  this.recipe
-      });
-    
+    this.dialog.open(UpdateRecipeFormComponent, {
+      data: this.recipe
+    });
   }
 
   isUserOwner(): boolean {
     return this.user && this.user.email === this.recipe.user.email;
+  }
+
+  toggleFavorite() {
+    this.recipeService.likeRecipe(this.recipe.id).subscribe(
+      (likedRecipe: any) => {
+        this.isFavorite = likedRecipe.likes.includes(this.user.id);
+        this.likeNumber = likedRecipe.likes.length;
+      },
+      (error) => {
+        this.snackbar.show('Failed to like the recipe. Please try again.' + error.error, 'Close', 'error-snackbar');
+      }
+    );
   }
 
   ondelete() {
@@ -56,7 +75,7 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
             this.snackbar.show(response, 'Close', 'success-snackbar');
           },
           (error) => {
-            this.snackbar.show('Failed to delete the recipe. Please try again.'+ error.error, 'Close', 'error-snackbar');
+            this.snackbar.show('Failed to delete the recipe. Please try again.' + error.error, 'Close', 'error-snackbar');
           }
         );
       } else {
@@ -64,5 +83,4 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
       }
     }
   }
-
 }

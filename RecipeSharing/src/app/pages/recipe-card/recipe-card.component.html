@@ -25,14 +25,17 @@
   </mat-card-content>
   <mat-card-actions class="flex justify-between fixed-actions">
     <div class="flex gap-1">
-      <button mat-mini-fab>
+      <button mat-mini-fab (click)="toggleFavorite()">
         <mat-icon
           aria-hidden="false"
           aria-label="Example favorite icon"
           fontIcon="favorite"
+          [ngClass]="{'fav-icon': !isFavorite, 'fav-icon-like': isFavorite}"
         ></mat-icon>
+        <span>{{likeNumber}}</span>
       </button>
-      @if(true){
+      
+      @if(isUserOwner()){
       <button mat-mini-fab (click)="openDialog()">
         <mat-icon
           aria-hidden="false"
@@ -41,13 +44,7 @@
         ></mat-icon>
       </button>
       }
-      <button mat-mini-fab>
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example share icon"
-          fontIcon="share"
-        ></mat-icon>
-      </button>
+      
     </div>
     <div>
       @if(isUserOwner()){

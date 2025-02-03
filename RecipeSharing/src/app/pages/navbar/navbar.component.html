@@ -1,5 +1,5 @@
 <mat-toolbar class="flex items-center justify-between">
-  <span>My App</span>
+  <span class="text-3xl font-bold text-white" (click)="nevigateToHome()">Recipio</span>
 
   <div class="flex items-center justify-between">
     <button mat-stroked-button class="mr-2" [matMenuTriggerFor]="profile">
@@ -8,6 +8,12 @@
         <span>{{ user?.fullName }}</span>
         <mat-divider></mat-divider>
         <span>{{ user?.email }}</span>
+        <mat-divider></mat-divider>
+        @if (isHome) {
+          <button mat-button (click)="nevigateToMyRecipe()" class="w-full">My Recipes</button>
+        }@else {
+          <button mat-button (click)="nevigateToHome()" class="w-full">Home</button>
+        }
       </mat-menu>
     </button>
     <button

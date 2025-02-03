@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 
@@ -15,7 +15,10 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
+
   user: any = null;
+  currentRoute: string ='';
+  isHome: boolean = true;
 
   constructor(private authService: AuthService, private router: Router) {
   }
@@ -24,6 +27,13 @@ export class NavbarComponent implements OnInit {
     this.authService.authSubject.subscribe(data => {
       this.user = data.user;
     });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.urlAfterRedirects;
+      }
+    });
+    console.log(this.currentRoute)
   }
 
   onLogout(): void {
@@ -33,6 +43,15 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  nevigateToMyRecipe() {
+    this.router.navigate(['/home/my-recipes']);
+    this.isHome = false;
+  }
+
+  nevigateToHome(){
+    this.router.navigate(['/home']);
+    this.isHome = true;
+  }
 
   getInitials(fullName: string | null | undefined): string {
     if (!fullName) {

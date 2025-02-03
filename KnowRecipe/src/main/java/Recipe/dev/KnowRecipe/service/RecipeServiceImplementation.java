@@ -1,6 +1,5 @@
 package Recipe.dev.KnowRecipe.service;
 
-
 import Recipe.dev.KnowRecipe.model.Recipe;
 import Recipe.dev.KnowRecipe.model.User;
 import Recipe.dev.KnowRecipe.repository.RecipeRepository;
@@ -96,5 +95,10 @@ public class RecipeServiceImplementation implements RecipeService {
         return response;
     }
 
+    @Override
+    public List<Long> getLikes(Long recipeId) throws Exception {
+        Recipe recipe = findRecipeById(recipeId);
+        return recipe.getLikes();
+    }
 
 }

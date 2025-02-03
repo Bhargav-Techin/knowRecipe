@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,7 +13,7 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
-  imports: [NgClass, CommonModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIcon, MatDialogModule],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIcon, MatDialogModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {

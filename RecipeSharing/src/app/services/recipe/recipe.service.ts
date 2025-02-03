@@ -71,7 +71,7 @@ export class RecipeService {
 
   likeRecipe(id: any): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.put(`${this.baseURL}/api/recipe/${id}/like`, {}, { headers }).pipe(
+    return this.http.put(`${this.baseURL}/api/recipes/${id}/like`, {}, { headers }).pipe(
       tap((likedRecipe: any) => {
         const currentState = this.recipeSubject.value;
         const updatedRecipes = currentState.recipes.map((item: any) => item.id === likedRecipe.id ? likedRecipe : item);
@@ -79,4 +79,21 @@ export class RecipeService {
       })
     );
   }
+
+  getLikes(recipeId: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get(`${this.baseURL}/api/recipes/${recipeId}/likes`, { headers }).pipe(
+      tap((likes: any) => {
+        const currentState = this.recipeSubject.value;
+        const updatedRecipes = currentState.recipes.map((item: any) => {
+          if (item.id === recipeId) {
+            item.likes = likes;
+          }
+          return item;
+        });
+        this.recipeSubject.next({ ...currentState, recipes: updatedRecipes });
+      })
+    );
+  }
+  
 }

@@ -14,4 +14,5 @@ public interface RecipeService {
     public Recipe updateRecipe(Recipe recipe, Long id) throws Exception;
     public List<Recipe>findAllRecipe();
     public Map<String, Object> likeRecipe(Long recipeId, Long userId) throws Exception;
+    public List<Long> getLikes(Long recipeId) throws Exception;
 }

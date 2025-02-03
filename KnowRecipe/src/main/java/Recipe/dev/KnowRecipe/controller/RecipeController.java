@@ -76,4 +76,14 @@ public class RecipeController {
         return recipeService.likeRecipe(recipeId, user.getId());
     }
 
+    @GetMapping("/{recipeId}/likes")
+    public ResponseEntity<List<Long>> getLikes(@PathVariable Long recipeId) {
+        try {
+            List<Long> likes = recipeService.getLikes(recipeId);
+            return ResponseEntity.ok(likes);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
