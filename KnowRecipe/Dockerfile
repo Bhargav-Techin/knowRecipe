@@ -26,3 +26,7 @@ EXPOSE 5454
 
 # Run the JAR file
 ENTRYPOINT ["java", "-jar", "/app/KnowRecipe-0.0.1-SNAPSHOT.jar"]
+
+# Copy the .env file into the container
+COPY .env /app/.env
+
