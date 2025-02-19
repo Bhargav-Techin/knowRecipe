@@ -1,6 +1,7 @@
 package Recipe.dev.KnowRecipe.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class AppConfig {
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -42,7 +46,7 @@ public class AppConfig {
     private CorsConfigurationSource corsConfigarationSource() {
         return request -> {
             CorsConfiguration cfg = new CorsConfiguration();
-            cfg.setAllowedOrigins(Collections.singletonList("http://localhost:4200")); // Allow requests from your frontend domain
+            cfg.setAllowedOrigins(Collections.singletonList(frontendUrl));
             cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             cfg.setAllowedHeaders(List.of("Authorization", "Content-Type"));
             cfg.setExposedHeaders(List.of("Authorization"));
