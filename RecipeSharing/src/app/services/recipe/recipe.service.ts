@@ -34,8 +34,7 @@ export class RecipeService {
         this.recipeSubject.next({ ...currentState, recipes, loading: false });
       })
     );
-}
-
+  }
 
   createRecipe(recipe: any): Observable<any> {
     const headers = this.getHeaders();
@@ -68,7 +67,6 @@ export class RecipeService {
       })
     );
   }
-  
 
   likeRecipe(id: any): Observable<any> {
     const headers = this.getHeaders();
@@ -96,5 +94,4 @@ export class RecipeService {
       })
     );
   }
-  
 }

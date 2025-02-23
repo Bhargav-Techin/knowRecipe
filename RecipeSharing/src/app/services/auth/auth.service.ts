@@ -72,7 +72,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    // Check if the user is logged in by verifying the presence of a valid token
     return !!localStorage.getItem('jwt');
   }
 }
