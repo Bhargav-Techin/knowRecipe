@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
-  private baseURL: string = 'http://localhost:5454';
+  private baseURL: string = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -33,8 +34,7 @@ export class RecipeService {
         this.recipeSubject.next({ ...currentState, recipes, loading: false });
       })
     );
-}
-
+  }
 
   createRecipe(recipe: any): Observable<any> {
     const headers = this.getHeaders();
@@ -67,7 +67,6 @@ export class RecipeService {
       })
     );
   }
-  
 
   likeRecipe(id: any): Observable<any> {
     const headers = this.getHeaders();
@@ -95,5 +94,4 @@ export class RecipeService {
       })
     );
   }
-  
 }

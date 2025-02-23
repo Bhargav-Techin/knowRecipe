@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseURL: string = 'http://localhost:5454';
+  private baseURL: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {
     this.initializeUser();
@@ -71,7 +72,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    // Check if the user is logged in by verifying the presence of a valid token
     return !!localStorage.getItem('jwt');
   }
 }
