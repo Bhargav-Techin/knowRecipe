@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseURL: string = 'http://localhost:5454';
+  private baseURL: string = environment.BASE_API_URL;
 
   constructor(private http: HttpClient) {
     this.initializeUser();

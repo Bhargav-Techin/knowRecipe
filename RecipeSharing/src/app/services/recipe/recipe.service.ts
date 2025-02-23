@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
-  private baseURL: string = 'http://localhost:5454';
+  private baseURL: string = environment.BASE_API_URL;
 
   constructor(private http: HttpClient) { }
 
