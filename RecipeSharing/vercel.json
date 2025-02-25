@@ -1,6 +1,13 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "angular.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist/recipe-sharing" }
+    }
   ],
-  "public": "dist/recipe-sharing"
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
