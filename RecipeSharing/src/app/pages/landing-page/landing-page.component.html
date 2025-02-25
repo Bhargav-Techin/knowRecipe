@@ -1,0 +1,198 @@
+<header
+  class="sticky top-0 z-50 flex overflow-hidden flex-wrap gap-10 justify-between items-center py-4 pr-9 pl-9 w-full bg-fuchsia-800 max-md:px-5 max-md:max-w-full"
+>
+  <h1 class="self-stretch my-auto text-3xl font-bold font-momo text-white">
+    RECIPEDEKHO
+  </h1>
+  <nav
+    class="flex flex-wrap gap-7 items-center self-stretch my-auto text-base leading-none text-white min-w-60"
+  >
+    <a
+      class="gap-2 self-stretch p-2 my-auto whitespace-nowrap rounded-lg hover:bg-fuchsia-700"
+    >
+      Community
+    </a>
+    <a
+      class="gap-2 self-stretch p-2 my-auto whitespace-nowrap rounded-lg hover:bg-fuchsia-700"
+    >
+      Contact
+    </a>
+    <button
+      class="flex flex-col justify-center self-stretch p-px my-auto font-bold text-center text-fuchsia-950 w-[182px]"
+      (click)="goToAuth()"
+    >
+      <span
+        class="gap-0 py-5 bg-fuchsia-300 rounded-3xl w-[181px] hover:bg-[#F797CA]"
+      >
+        Get Started
+      </span>
+    </button>
+  </nav>
+</header>
+
+<section class="flex flex-wrap gap-2 items-center p-8 max-md:max-w-full">
+  <div
+    class="flex flex-col justify-center self-stretch my-auto font-bold min-w-60 w-[623px] max-md:max-w-full"
+  >
+    <div class="max-w-full text-white w-[623px]">
+      <h2
+        class="text-6xl tracking-wide leading-[77px] max-md:max-w-full max-md:text-4xl max-md:leading-[53px]"
+      >
+        Welcome to RECIPEDEKHO
+      </h2>
+      <p class="mt-10 text-4xl tracking-normal leading-tight max-md:max-w-full">
+        A Community for Food Lovers!
+      </p>
+    </div>
+    <button
+      class="flex flex-col justify-center py-1 mt-20 max-w-full text-2xl leading-none text-center text-fuchsia-950 w-[312px] max-md:mt-10"
+      (click)="goToAuth()"
+    >
+      <span
+        class="gap-0 py-5 bg-fuchsia-300 rounded-3xl w-[181px] hover:bg-[#F797CA]"
+      >
+        Get Started
+      </span>
+    </button>
+  </div>
+  <div
+    class="flex grow shrink gap-2.5 items-center self-stretch py-2.5 pl-2.5 my-auto bg-stone-500 bg-opacity-10 min-w-60 rounded-[56px] w-[396px] max-md:max-w-full"
+  >
+    <img
+      src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/736f983565d1f254c1a01556d5879195aa4b8dce63a5b4fe9fb6b7c88cd6aa85?placeholderIfAbsent=true"
+      alt="Recipe illustration"
+      class="object-contain self-stretch my-auto aspect-square min-w-60 w-[512px]"
+    />
+  </div>
+</section>
+
+<figure class="absolute left-1/2 transform -translate-x-1/2 top-[100vh] z-10">
+  <img
+    src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/e65d20cc778b4ae69b433db789a5cf553a3e57a43c5e24931088f3d07ca76c95?placeholderIfAbsent=true"
+    alt="Decorative element"
+    class="object-contain max-w-full aspect-square w-[234px]"
+  />
+</figure>
+
+<section class="flex flex-wrap gap-2 items-center p-8 max-md:max-w-full">
+  <div
+    class="flex grow shrink gap-2.5 items-center self-stretch py-2.5 pl-2.5 my-auto bg-stone-500 bg-opacity-10 min-w-60 rounded-[56px] w-[396px] max-md:max-w-full"
+  >
+    <img
+      src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/fd3e7d5f359550da0b29b1e35aa73db55dcefc1341b612450e53ed2baafce142?placeholderIfAbsent=true"
+      alt="Recipe sharing"
+      class="object-contain self-stretch my-auto aspect-square min-w-60 w-[512px]"
+    />
+  </div>
+  <article
+    class="grow shrink self-stretch my-auto text-center text-white min-w-60 w-[553px] max-md:max-w-full"
+  >
+    <h2
+      class="text-5xl font-bold tracking-normal leading-10 max-md:max-w-full max-md:text-4xl max-md:leading-10"
+    >
+      Share & Discover Delicious Recipes
+    </h2>
+    <p class="mt-14 text-3xl leading-8 max-md:mt-10 max-md:max-w-full">
+      Share and discover amazing recipes from around the world! Join our
+      community to upload your favourite dishes, connect with food lovers, and
+      get inspired.
+    </p>
+  </article>
+</section>
+
+<figure class="absolute right-0 top-[230vh] z-10">
+  <img
+    src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/0c5ab595ce9a36025d061848abbcf4a9a08bd64d9cbd2e3c78e1e37138f7d323?placeholderIfAbsent=true"
+    alt="Decorative element"
+    class="object-contain max-w-full aspect-square w-[218px]"
+  />
+</figure>
+
+<footer
+  class="relative flex overflow-hidden flex-wrap flex-1 gap-4 items-start self-stretch px-20 pt-8 pb-40 mt-60 bg-white border-t border-zinc-300 size-full max-md:px-5 max-md:pb-24 max-md:mt-10 max-md:max-w-full"
+>
+  <div class="flex flex-col grow shrink items-start min-w-60 w-[210px]">
+    <div class="flex gap-4 items-center">
+      <a href="#" aria-label="Social media link">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/b742f3f6e1cba31a89a8e6720d9b537141ad17b582c67349ffda3d14027d6bb4?placeholderIfAbsent=true"
+          alt="Social icon"
+          class="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+        />
+      </a>
+      <a href="#" aria-label="Social media link">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/81f12fada3bb755aa06d89305fb7512213d2316d92f88da3779adce1b3a510f2?placeholderIfAbsent=true"
+          alt="Social icon"
+          class="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+        />
+      </a>
+      <a href="#" aria-label="Social media link">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/694f229e196d37be5cfbcf42cda96b47c74c82cf8dd3fc6025d70351f9414f84?placeholderIfAbsent=true"
+          alt="Social icon"
+          class="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+        />
+      </a>
+      <a href="#" aria-label="Social media link">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/ded3852faf46446fbb9bfc35dd8a7214/8726ca6e92a457084cd9b907640bae24f37e0f4bd84c32ab631afc4847c0600d?placeholderIfAbsent=true"
+          alt="Social icon"
+          class="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+        />
+      </a>
+    </div>
+  </div>
+
+  <nav
+    class="grow shrink text-base leading-snug min-w-60 text-stone-900 w-[210px]"
+  >
+    <h3 class="pb-4 w-full font-semibold">Use cases</h3>
+    <ul>
+      <li class="mt-3 w-full max-md:pr-5">
+        <a href="#create">Create Recipe</a>
+      </li>
+      <li class="mt-3 w-[89px] max-md:pr-0">
+        <a href="#share">Share Recipe</a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav
+    class="flex flex-col grow shrink items-start text-base leading-snug min-w-60 text-stone-900 w-[210px]"
+  >
+    <h3 class="self-stretch pb-4 w-full font-semibold">Community</h3>
+    <ul>
+      <li class="mt-3 whitespace-nowrap w-[89px] max-md:pr-5">
+        <a href="#support">Support</a>
+      </li>
+      <li class="mt-3 whitespace-nowrap w-[89px]">
+        <a href="#developers">Developers</a>
+      </li>
+      <li class="mt-3 w-[89px]">
+        <a href="#resources">Resource library</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div
+    class="flex flex-col grow shrink items-start text-base leading-snug min-w-60 text-stone-900 w-[210px]"
+  >
+    <h3 class="self-stretch pb-4 w-full font-semibold">Contact</h3>
+    <address class="not-italic">
+      <p class="mt-3">
+        <a href="mailto:recipe.dekho@gmail.com" class="hover:text-fuchsia-800"
+          >recipe.dekho&#64;gmail.com</a
+        >
+      </p>
+      <p class="mt-3">
+        <a href="tel:180045217869" class="hover:text-fuchsia-800"
+          >180045217869</a
+        >
+      </p>
+    </address>
+  </div>
+  <div class="absolute w-full bottom-4 left-1/2 -translate-x-1/2 text-center text-stone-700 bg-gray-200">
+    Made By Bhargav
+  </div>
+</footer>

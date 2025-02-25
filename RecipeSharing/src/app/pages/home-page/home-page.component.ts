@@ -7,13 +7,12 @@ import { AuthService } from '../../services/auth/auth.service';
 import { NavbarComponent } from "../navbar/navbar.component";
 import { RecipeService } from '../../services/recipe/recipe.service';
 import { Subscription } from 'rxjs';
-import { FooterComponent } from '../footer/footer.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, NavbarComponent, FooterComponent, RouterOutlet],
+  imports: [MatIconModule, MatButtonModule, NavbarComponent, RouterOutlet],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
 })

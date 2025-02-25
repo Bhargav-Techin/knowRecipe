@@ -17,6 +17,7 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
+
   isRegistered: boolean = false;
   user: any = null;
   hide = signal(true);
@@ -45,6 +46,9 @@ export class AuthComponent {
     event.stopPropagation();
   }
 
+  goToLandingPage() {
+    this.router.navigate(['/landing-page']);
+  } 
   onSubmitRegistration(): void {
     if (this.registrationForm.valid) {
       this.authService.register(this.registrationForm.value).subscribe({
