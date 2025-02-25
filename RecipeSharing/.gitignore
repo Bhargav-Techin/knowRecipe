@@ -13,8 +13,8 @@ out-tsc/
 *.iml
 
 # Environment files (to prevent leaking secrets)
-src/environments/environment
-src/environments/environment.development
+src/environments/environment.ts
+src/environments/environment.development.ts
 
 # If using dynamic runtime config (prevent committing actual values)
 src/assets/config.json
