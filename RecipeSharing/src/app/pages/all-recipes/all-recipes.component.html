@@ -5,6 +5,11 @@
     [recipe]="item"
   ></app-recipe-card>
   } @empty {
-  <app-loader class="absolute inset-0 z-20"></app-loader>
+    @if(isLoading){
+      <app-loader class="fixed w-full h-full inset-0 z-50"></app-loader>
+    }@else {
+      <h1 class="text-2xl font-bold text-center text-white">No recipes found.</h1>
+    }
   }
 </div>
+

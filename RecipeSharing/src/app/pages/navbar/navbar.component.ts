@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
   onLogout(): void {
     if (confirm("Are you sure?")) {
       this.authService.logout();
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/landing-page']);
     }
   }
 

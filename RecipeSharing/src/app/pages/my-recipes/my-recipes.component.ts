@@ -16,6 +16,7 @@ import { LoaderComponent } from "../../loader/loader.component";
 export class MyRecipesComponent implements OnInit, OnDestroy {
   recipes = [];
   user: any;
+  isLoading = true;
   private subscriptions: Subscription = new Subscription();
 
   constructor(public dialog: MatDialog, public authService: AuthService, private recipeService: RecipeService) { }
@@ -41,6 +42,7 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
       this.recipeService.getRecipes().subscribe(
         (allRecipes) => {
           this.recipes = allRecipes.filter((recipe: any) => this.isUserOwner(recipe));
+          this.isLoading = false;
         },
       )
     );
