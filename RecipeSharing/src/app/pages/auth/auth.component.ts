@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { LoaderService } from '../../services/loader/loader.service'; // ✅ Import LoaderService
 
 @Component({
   selector: 'app-auth',
@@ -25,7 +26,8 @@ export class AuthComponent {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private loaderService: LoaderService // ✅ Inject LoaderService
   ) {}
 
   // Registration form
@@ -48,20 +50,24 @@ export class AuthComponent {
 
   goToLandingPage() {
     this.router.navigate(['/landing-page']);
-  } 
+  }
+
   onSubmitRegistration(): void {
     if (this.registrationForm.valid) {
+      this.loaderService.show(); // ✅ Show Loader
       this.authService.register(this.registrationForm.value).subscribe({
         next: (response: any) => {
           localStorage.setItem("jwt", response.jwt);
           this.authService.getUserProfile().subscribe((profile: any) => {
-            this.authService.updateUserProfile(profile); // Update user profile
+            this.authService.updateUserProfile(profile);
           });
-          console.log(response.message);
+          this.loaderService.hide(); // ✅ Hide Loader after navigation
           this.snackbar.show(response.message, 'Close', 'success-snackbar');
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).then(() => {
+          });
         },
         error: (err: any) => {
+          this.loaderService.hide(); // ✅ Hide Loader on error
           this.snackbar.show('Registration failed. ' + err.error.error, 'Close', 'error-snackbar');
           console.error("Error details:", err.error);
         }
@@ -71,6 +77,7 @@ export class AuthComponent {
 
   onSubmitLogin(): void {
     if (this.loginForm.valid) {
+      this.loaderService.show(); // ✅ Show Loader
       const loginData = {
         email: this.loginForm.get('email')!.value,
         password: this.loginForm.get('password')!.value
@@ -81,11 +88,13 @@ export class AuthComponent {
           this.authService.getUserProfile().subscribe((profile: any) => {
             this.authService.updateUserProfile(profile);
           });
-          console.log(response.message);
+          this.loaderService.hide(); // ✅ Hide Loader after navigation
           this.snackbar.show(response.message, 'Close', 'success-snackbar');
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).then(() => {
+          });
         },
         error: (err: any) => {
+          this.loaderService.hide(); // ✅ Hide Loader on error
           this.snackbar.show('Check credentials and try again. ' + err.error.error, 'Close', 'error-snackbar');
           console.error("Error details:", err.error);
         }

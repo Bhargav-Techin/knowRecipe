@@ -9,6 +9,7 @@ import { RecipeService } from '../../services/recipe/recipe.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
+import { LoaderService } from '../../services/loader/loader.service'; // ✅ Import LoaderService
 
 @Component({
   selector: 'app-update-recipe-form',
@@ -29,13 +30,13 @@ export class UpdateRecipeFormComponent implements OnInit {
     public dialogRef: MatDialogRef<UpdateRecipeFormComponent>,
     private recipeService: RecipeService,
     private authService: AuthService,
-    private snackbar: SnackbarService
-
+    private snackbar: SnackbarService,
+    private loaderService: LoaderService // ✅ Inject LoaderService
   ) { }
 
   ngOnInit(): void {
     this.recipeForm = this.fb.group({
-      id:this.recipeData.id,
+      id: this.recipeData.id,
       title: [this.recipeData.title, Validators.required],
       veg: [JSON.stringify(this.recipeData.veg), Validators.required],
       image: [this.recipeData.image, Validators.required],
@@ -57,23 +58,26 @@ export class UpdateRecipeFormComponent implements OnInit {
     if (this.isUserOwner()) {
       if (this.recipeForm.valid) {
         const updatedRecipe = this.recipeForm.value;
-  
+
         const isTitleUnchanged = updatedRecipe.title === this.recipeData.title;
         const isDescriptionUnchanged = updatedRecipe.description === this.recipeData.description;
         const isVegUnchanged = updatedRecipe.veg === this.recipeData.veg.toString(); // Convert to string for comparison
         const isImageUnchanged = updatedRecipe.image === this.recipeData.image;
-  
+
         const isUnchanged = isTitleUnchanged && isDescriptionUnchanged && isVegUnchanged && isImageUnchanged;
-  
+
         if (isUnchanged) {
           this.snackbar.show('No changes detected in the recipe.', 'Close', 'info-snackbar');
         } else {
+          this.dialogRef.close(true);
+          this.loaderService.show(); // ✅ Show Loader before making API request
           this.recipeService.updateRecipe(updatedRecipe).subscribe({
             next: () => {
+              this.loaderService.hide(); // ✅ Hide Loader after success
               this.snackbar.show('Recipe updated successfully!', 'Close', 'success-snackbar');
-              this.dialogRef.close(true);
             },
             error: (err: any) => {
+              this.loaderService.hide(); // ✅ Hide Loader on error
               this.snackbar.show('Failed to update recipe. ' + err.error.error, 'Close', 'error-snackbar');
               console.error("Error details:", err.error);
             }
@@ -84,6 +88,4 @@ export class UpdateRecipeFormComponent implements OnInit {
       this.snackbar.show('You are not authorized to update this recipe!', 'Close', 'error-snackbar');
     }
   }
-  
-  
 }

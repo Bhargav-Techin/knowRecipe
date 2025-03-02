@@ -17,7 +17,7 @@ import { MatListModule } from '@angular/material/list';
 export class NavbarComponent implements OnInit {
 
   user: any = null;
-  currentRoute: string ='';
+  currentRoute: string = '';
   isHome: boolean = true;
 
   constructor(private authService: AuthService, private router: Router) {
@@ -31,10 +31,14 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;
+        this.isHome = this.currentRoute === '/home'; // ✅ Update isHome on reload
       }
     });
-    console.log(this.currentRoute)
+
+    // ✅ Set isHome when component initializes (for direct page reloads)
+    this.isHome = this.router.url === '/home';
   }
+
 
   onLogout(): void {
     if (confirm("Are you sure?")) {
@@ -48,7 +52,7 @@ export class NavbarComponent implements OnInit {
     this.isHome = false;
   }
 
-  nevigateToHome(){
+  nevigateToHome() {
     this.router.navigate(['/home']);
     this.isHome = true;
   }

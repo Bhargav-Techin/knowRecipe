@@ -9,11 +9,13 @@ import { RecipeService } from '../../services/recipe/recipe.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { LoaderService } from '../../services/loader/loader.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-recipe-card',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule],
+  imports: [MatCardModule, MatButtonModule, MatIcon, CommonModule, MatProgressSpinnerModule],
   templateUrl: './recipe-card.component.html',
   styleUrls: ['./recipe-card.component.scss']
 })
@@ -26,7 +28,7 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
   isFavorite: boolean = false;
   likeNumber: number = 0;
 
-  constructor( private authService: AuthService, private recipeService: RecipeService, private snackbar: SnackbarService) { }
+  constructor( private authService: AuthService, private recipeService: RecipeService, private snackbar: SnackbarService, private loaderService: LoaderService) { }
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -56,12 +58,15 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
   }
 
   toggleFavorite() {
+    this.loaderService.show();
     this.recipeService.likeRecipe(this.recipe.id).subscribe(
       (likedRecipe: any) => {
         this.isFavorite = likedRecipe.likes.includes(this.user.id);
         this.likeNumber = likedRecipe.likes.length;
+        this.loaderService.hide(); // Hide Loader after success
       },
       (error) => {
+        this.loaderService.hide(); // Hide Loader on error
         this.snackbar.show('Failed to like the recipe. Please try again.' + error.error, 'Close', 'error-snackbar');
       }
     );
@@ -70,11 +75,14 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
   ondelete() {
     if (confirm('Are you sure you want to delete the recipe?')) {
       if (this.isUserOwner()) {
+        this.loaderService.show(); // Show Loader before deleting recipe
         this.recipeService.deleteRecipe(this.recipe.id).subscribe(
           (response) => {
+            this.loaderService.hide(); // Hide Loader after deleting recipe
             this.snackbar.show(response, 'Close', 'success-snackbar');
           },
           (error) => {
+            this.loaderService.hide(); // Hide Loader on error
             this.snackbar.show('Failed to delete the recipe. Please try again.' + error.error, 'Close', 'error-snackbar');
           }
         );

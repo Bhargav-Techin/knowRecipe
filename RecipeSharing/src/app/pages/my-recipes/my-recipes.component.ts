@@ -1,14 +1,15 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { RecipeService } from '../../services/recipe/recipe.service';
 import { RecipeCardComponent } from '../recipe-card/recipe-card.component';
 import { MatListModule } from '@angular/material/list';
+import { LoaderComponent } from "../../loader/loader.component";
 
 @Component({
   selector: 'app-my-recipes',
-  imports: [RecipeCardComponent, MatListModule],
+  imports: [RecipeCardComponent, MatListModule, LoaderComponent],
   templateUrl: './my-recipes.component.html',
   styleUrls: ['./my-recipes.component.scss']
 })
@@ -23,26 +24,23 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.authService.authSubject.subscribe(data => {
         this.user = data.user;
-        this.loadUserRecipes();
-      })
-    );
-
-    this.subscriptions.add(
-      this.recipeService.recipeSubject.subscribe(data => {
-        this.recipes = data.recipes.filter((recipe: any)  => this.isUserOwner(recipe));
+        if (this.user) {
+          this.loadRecipesOfOwner();
+        }
       })
     );
   }
+  
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
-  loadUserRecipes() {
+  loadRecipesOfOwner() {
     this.subscriptions.add(
       this.recipeService.getRecipes().subscribe(
-        (recipes) => {
-          this.recipes = recipes.filter((recipe: any) => this.isUserOwner(recipe));
+        (allRecipes) => {
+          this.recipes = allRecipes.filter((recipe: any) => this.isUserOwner(recipe));
         },
       )
     );

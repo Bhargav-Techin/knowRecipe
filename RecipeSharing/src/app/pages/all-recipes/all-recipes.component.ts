@@ -4,10 +4,11 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { RecipeService } from '../../services/recipe/recipe.service';
 import { RecipeCardComponent } from "../recipe-card/recipe-card.component";
+import { LoaderComponent } from "../../loader/loader.component";
 
 @Component({
   selector: 'app-all-recipes',
-  imports: [RecipeCardComponent],
+  imports: [RecipeCardComponent, LoaderComponent],
   templateUrl: './all-recipes.component.html',
   styleUrl: './all-recipes.component.scss'
 })

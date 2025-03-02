@@ -1,15 +1,11 @@
 <mat-card class="example-card fixed-card" appearance="outlined">
-  <mat-card-header class="felx justify-between">
-    <mat-card-title class="text-white">{{
-      recipe.title | uppercase
-    }}</mat-card-title>
-    <mat-card-subtitle class="text-white"
-      >by {{ recipe.user.fullName }}</mat-card-subtitle
-    >
-    <div [ngClass]="{'veg-tag': recipe.veg, 'non-veg-tag': !recipe.veg}">
-      <div [ngClass]="{'veg-tag-inner': recipe.veg, 'non-veg-tag-inner': !recipe.veg}">
-      
-      </div>
+  <mat-card-header class="flex justify-between">
+    <mat-card-title class="text-white">{{ recipe.title | uppercase }}</mat-card-title>
+    <mat-card-subtitle class="text-white">by {{ recipe.user.fullName }}</mat-card-subtitle>
+    <div [ngClass]="{ 'veg-tag': recipe.veg, 'non-veg-tag': !recipe.veg }">
+      <div
+        [ngClass]="{ 'veg-tag-inner': recipe.veg, 'non-veg-tag-inner': !recipe.veg }"
+      ></div>
     </div>
   </mat-card-header>
   <img
@@ -19,9 +15,7 @@
     class="object-cover fixed-image"
   />
   <mat-card-content class="scrollable-content">
-    <p class="text-white">
-      {{ recipe.description }}
-    </p>
+    <p class="text-white">{{ recipe.description }}</p>
   </mat-card-content>
   <mat-card-actions class="flex justify-between fixed-actions">
     <div class="flex gap-1">
@@ -30,31 +24,33 @@
           aria-hidden="false"
           aria-label="Example favorite icon"
           fontIcon="favorite"
-          [ngClass]="{'fav-icon': !isFavorite, 'fav-icon-like': isFavorite}"
+          [ngClass]="{ 'fav-icon': !isFavorite, 'fav-icon-like': isFavorite }"
         ></mat-icon>
-        <span>{{likeNumber}}</span>
+        @if (likeNumber) {
+          <span>{{ likeNumber }}</span>
+        } @else {
+          <mat-spinner class="my-custom-spinner" [diameter]="40"></mat-spinner>
+        }
       </button>
-      
-      @if(isUserOwner()){
-      <button mat-mini-fab (click)="openDialog()">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example edit icon"
-          fontIcon="edit"
-        ></mat-icon>
-      </button>
+      @if (isUserOwner()) {
+        <button mat-mini-fab (click)="openDialog()">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example edit icon"
+            fontIcon="edit"
+          ></mat-icon>
+        </button>
       }
-      
     </div>
     <div>
-      @if(isUserOwner()){
-      <button mat-mini-fab (click)="ondelete()">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example delete icon"
-          fontIcon="delete"
-        ></mat-icon>
-      </button>
+      @if (isUserOwner()) {
+        <button mat-mini-fab (click)="ondelete()">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example delete icon"
+            fontIcon="delete"
+          ></mat-icon>
+        </button>
       }
     </div>
   </mat-card-actions>

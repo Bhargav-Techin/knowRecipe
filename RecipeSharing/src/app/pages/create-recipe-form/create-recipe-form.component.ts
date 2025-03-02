@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { RecipeService } from '../../services/recipe/recipe.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { LoaderService } from '../../services/loader/loader.service'; // ✅ Import LoaderService
 
 @Component({
   selector: 'app-create-recipe-form',
@@ -23,7 +24,8 @@ export class CreateRecipeFormComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<CreateRecipeFormComponent>,
     private recipeService: RecipeService,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private loaderService: LoaderService // ✅ Inject LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -37,12 +39,16 @@ export class CreateRecipeFormComponent implements OnInit {
 
   onSubmitCreateRecipe(): void {
     if (this.recipeForm.valid) {
-      this.recipeService.createRecipe(this.recipeForm.value).subscribe({
+      const createdRecipe = this.recipeForm.value;
+      this.dialogRef.close(true);
+      this.loaderService.show(); // ✅ Show Loader
+      this.recipeService.createRecipe(createdRecipe).subscribe({
         next: () => {
+          this.loaderService.hide(); // ✅ Hide Loader after closing dialog
           this.snackbar.show('Recipe created successfully!', 'Close', 'success-snackbar');
-          this.dialogRef.close(true);
         },
         error: (err: any) => {
+          this.loaderService.hide(); // ✅ Hide Loader on error
           this.snackbar.show('Failed to create recipe. ' + err.error.error, 'Close', 'error-snackbar');
           console.error("Error details:", err.error);
         }
