@@ -26,7 +26,8 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
   dialog = inject(MatDialog);
   private subscriptions: Subscription = new Subscription();
   isFavorite: boolean = false;
-  likeNumber: number = 0;
+  likeNumber: number = 0 ;
+  isLoading: boolean = true;
 
   constructor( private authService: AuthService, private recipeService: RecipeService, private snackbar: SnackbarService, private loaderService: LoaderService) { }
 
@@ -36,10 +37,11 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
         this.user = data.user;
       })
     );
-
+    this.isLoading = true;
     this.recipeService.getLikes(this.recipe.id).subscribe((likes) => {
       this.isFavorite = likes.includes(this.user.id);
       this.likeNumber = likes.length;
+      this.isLoading = false;
     });
   }
 
@@ -58,15 +60,15 @@ export class RecipeCardComponent implements OnInit, OnDestroy {
   }
 
   toggleFavorite() {
-    this.loaderService.show();
+    this.isLoading = true;
     this.recipeService.likeRecipe(this.recipe.id).subscribe(
       (likedRecipe: any) => {
         this.isFavorite = likedRecipe.likes.includes(this.user.id);
         this.likeNumber = likedRecipe.likes.length;
-        this.loaderService.hide(); // Hide Loader after success
+        this.isLoading = false; // Hide Loader after success
       },
       (error) => {
-        this.loaderService.hide(); // Hide Loader on error
+        this.isLoading = false; // Hide Loader on error
         this.snackbar.show('Failed to like the recipe. Please try again.' + error.error, 'Close', 'error-snackbar');
       }
     );
