@@ -79,10 +79,6 @@ class _MyRecipesPageState extends State<MyRecipesPage> {
     return BaseScreen(
       title: 'RecipeDekho',
       onRefresh: _loadUserProfileAndRecipes,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
       child: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
@@ -106,7 +102,7 @@ class _MyRecipesPageState extends State<MyRecipesPage> {
                       : ListView.builder(
                           itemCount: _myRecipes.length,
                           itemBuilder: (context, index) {
-                            final recipe = _myRecipes[index];
+                            final recipe = _myRecipes[_myRecipes.length - 1 - index];
                             return RecipeCard(
                               recipe: recipe,
                               userId: userId,

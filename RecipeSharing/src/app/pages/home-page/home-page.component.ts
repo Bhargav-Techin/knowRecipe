@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CreateRecipeFormComponent } from '../create-recipe-form/create-recipe-form.component';
@@ -16,10 +16,21 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public authService: AuthService, private recipeService: RecipeService) { }
 
+  ngOnInit(): void {
+      try{
+        this.authService.getUserProfile()
+        console.log('got the user profile');
+      }catch(e){
+        console.error('Error getting user profile');
+        alert('Session Expired!!');
+        this.authService.logout();
+
+      }
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(CreateRecipeFormComponent);

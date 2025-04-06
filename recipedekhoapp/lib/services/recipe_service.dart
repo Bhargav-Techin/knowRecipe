@@ -42,20 +42,6 @@ class RecipeService {
     return jsonDecode(response.body);
   }
 
-  Future<List<dynamic>> getMyRecipes() async {
-    recipeSubject.add({...recipeSubject.value, 'loading': true});
-    try {
-      final headers = await _getHeaders();
-      final response = await http.get(Uri.parse('$baseUrl/api/my-recipes'), headers: headers);
-      final List<dynamic> recipes = jsonDecode(response.body);
-      recipeSubject.add({'recipes': recipes, 'loading': false});
-      return recipes;
-    } catch (e) {
-      recipeSubject.add({...recipeSubject.value, 'loading': false});
-      throw Exception('Error fetching your recipes: $e');
-    }
-  }
-
   Future<dynamic> createRecipe(Map<String, dynamic> recipe) async {
     final headers = await _getHeaders();
     final response = await http.post(Uri.parse('$baseUrl/api/recipes'), headers: headers, body: jsonEncode(recipe));
@@ -71,7 +57,8 @@ class RecipeService {
   Future<dynamic> deleteRecipe(String id) async {
     final headers = await _getHeaders();
     final response = await http.delete(Uri.parse('$baseUrl/api/recipes/$id'), headers: headers);
-    return jsonDecode(response.body);
+    print(response.runtimeType);
+    return response;
   }
 
   Future<dynamic> likeRecipe(String id) async {

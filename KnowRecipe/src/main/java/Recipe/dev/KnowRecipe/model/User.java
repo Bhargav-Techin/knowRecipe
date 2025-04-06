@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

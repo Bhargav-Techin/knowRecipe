@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:recipedekhoapp/pages/auth_page.dart';
+import 'package:recipedekhoapp/pages/create_recipe_dialog.dart';
 import 'package:recipedekhoapp/services/auth_service.dart';
+import 'package:recipedekhoapp/services/recipe_service.dart';
 
 class BaseScreen extends StatefulWidget {
   final Widget child;
   final String title;
+  final bool showDrawer;
   final bool showBottomNav;
-  final Widget? floatingActionButton;
+  final bool showFloatingActionButton;
   final Future<void> Function()? onRefresh;
 
   const BaseScreen({
     super.key,
     required this.child,
     required this.title,
+    this.showDrawer = true,
     this.showBottomNav = true,
-    this.floatingActionButton,
+    this.showFloatingActionButton = true,
     this.onRefresh,
   });
 
@@ -24,6 +28,7 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   final AuthService authService = AuthService();
+  final RecipeService recipeService = RecipeService();
   String? userName;
   String? userEmail;
   bool _isLoading = true;
@@ -130,6 +135,19 @@ class _BaseScreenState extends State<BaseScreen> {
     }
   }
 
+void openCreateRecipeDialog(BuildContext context, RecipeService recipeService) async {
+  bool? recipeCreated = await showDialog<bool>(
+    context: context,
+    builder: (context) => CreateRecipeDialog(recipeService: recipeService),
+  );
+
+  // ✅ Refresh recipes after a new one is added
+  if (recipeCreated == true && widget.onRefresh != null) {
+    await widget.onRefresh!();
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,7 +162,8 @@ class _BaseScreenState extends State<BaseScreen> {
         backgroundColor: const Color(0xFF810081),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: Drawer(
+      drawer:widget.showDrawer
+    ? Drawer(
         child: Column(
           children: [
             Container(
@@ -202,7 +221,8 @@ class _BaseScreenState extends State<BaseScreen> {
             ),
           ],
         ),
-      ),
+      )
+      :null,
       body:
           widget.onRefresh != null
               ? RefreshIndicator(
@@ -210,7 +230,13 @@ class _BaseScreenState extends State<BaseScreen> {
                 child: widget.child,
               )
               : widget.child,
-      floatingActionButton: widget.floatingActionButton,
+      floatingActionButton:
+          widget.showFloatingActionButton
+              ? FloatingActionButton(
+                onPressed: () => openCreateRecipeDialog(context, recipeService),
+                child: Icon(Icons.add),
+              )
+              : null,
       bottomNavigationBar:
           widget.showBottomNav
               ? BottomNavigationBar(

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:recipedekhoapp/pages/update_recipe_dialog.dart';
+import 'package:recipedekhoapp/services/recipe_service.dart';
 
 class RecipeCard extends StatefulWidget {
   final Map<String, dynamic> recipe;
   final int? userId;
   final Future<Map<String, dynamic>?> Function() onLike;
-  final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final Future<void> Function()? onRefresh;
 
@@ -13,7 +14,6 @@ class RecipeCard extends StatefulWidget {
     required this.recipe,
     required this.userId,
     required this.onLike,
-    this.onEdit,
     this.onDelete,
     this.onRefresh,
   });
@@ -23,6 +23,8 @@ class RecipeCard extends StatefulWidget {
 }
 
 class _RecipeCardState extends State<RecipeCard> {
+  final RecipeService recipeService = RecipeService();
+  late final Map<String, dynamic> recipe;
   bool isLiking = false;
   bool isLiked = false;
   int likeCount = 0;
@@ -53,13 +55,41 @@ class _RecipeCardState extends State<RecipeCard> {
     }
   }
 
+  void openUpdateRecipeDialog(
+    BuildContext context,
+    RecipeService recipeService,
+    Map<String, dynamic> recipe,
+  ) async {
+    bool _isLoading = false;
+    setState(() => _isLoading = true); // Show loading before dialog opens
+
+    final updatedRecipe = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder:
+          (context) =>
+              UpdateRecipeDialog(recipeService: recipeService, recipe: recipe),
+    );
+
+    setState(() => _isLoading = false); // Hide loading after dialog closes
+
+    if (updatedRecipe != null) {
+      setState(() {
+        widget.recipe.clear();
+        widget.recipe.addAll(updatedRecipe); // Update the UI with the new data
+      });
+      widget.onRefresh?.call(); // Refresh data if needed
+    }
+  }
+
   void _confirmDelete() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.black,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           title: const Text(
             "Confirm Delete",
             style: TextStyle(color: Colors.white),
@@ -71,7 +101,10 @@ class _RecipeCardState extends State<RecipeCard> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Cancel", style: TextStyle(color: Color(0xFFFFABF3))),
+              child: const Text(
+                "Cancel",
+                style: TextStyle(color: Color(0xFFFFABF3)),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -93,7 +126,7 @@ class _RecipeCardState extends State<RecipeCard> {
   @override
   Widget build(BuildContext context) {
     final bool isOwner = widget.userId == widget.recipe['user']['id'];
-    final bool isVeg = widget.recipe['isVeg'] ?? true; // Default to veg if not specified
+    final bool isVeg = (widget.recipe['veg'] == true);
 
     return Card(
       color: Colors.black54,
@@ -107,10 +140,24 @@ class _RecipeCardState extends State<RecipeCard> {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                widget.recipe['image'],
+                widget.recipe['image'] ??
+                    "https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/alert-triangle-red-1024.png",
                 width: 140,
                 height: 154,
                 fit: BoxFit.cover,
+                errorBuilder: (
+                  BuildContext context,
+                  Object error,
+                  StackTrace? stackTrace,
+                ) {
+                  // Display a default image if there is an error
+                  return Image.network(
+                    "https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/alert-triangle-red-1024.png",
+                    width: 140,
+                    height: 154,
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ),
             const SizedBox(width: 12),
@@ -174,7 +221,10 @@ class _RecipeCardState extends State<RecipeCard> {
                       GestureDetector(
                         onTap: _toggleLike,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF810081),
                             borderRadius: BorderRadius.circular(8),
@@ -186,19 +236,28 @@ class _RecipeCardState extends State<RecipeCard> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: isLiking
-                                    ? const SizedBox(
-                                        width: 23,
-                                        height: 23,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                                child:
+                                    isLiking
+                                        ? const SizedBox(
+                                          width: 23,
+                                          height: 23,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                  Colors.red,
+                                                ),
+                                          ),
+                                        )
+                                        : Icon(
+                                          isLiked
+                                              ? Icons.favorite
+                                              : Icons.favorite,
+                                          color:
+                                              isLiked
+                                                  ? Colors.red
+                                                  : Colors.black87,
                                         ),
-                                      )
-                                    : Icon(
-                                        isLiked ? Icons.favorite : Icons.favorite,
-                                        color: isLiked ? Colors.red : Colors.black87,
-                                      ),
                               ),
                               const SizedBox(width: 8),
                               Text(
@@ -217,7 +276,12 @@ class _RecipeCardState extends State<RecipeCard> {
                           ),
                           child: IconButton(
                             icon: const Icon(Icons.edit, color: Colors.white),
-                            onPressed: widget.onEdit,
+                            onPressed:
+                                () => openUpdateRecipeDialog(
+                                  context,
+                                  recipeService,
+                                  widget.recipe,
+                                ),
                           ),
                         ),
                         Container(

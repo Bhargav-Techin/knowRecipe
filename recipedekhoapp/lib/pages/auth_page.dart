@@ -18,7 +18,7 @@ class _AuthPageState extends State<AuthPage> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _nameController = TextEditingController();
+  final _fullNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   final AuthService authService = AuthService();
@@ -34,7 +34,7 @@ class _AuthPageState extends State<AuthPage> {
 
       if (isRegistered) {
         response = await authService.register(
-          _nameController.text.trim(),
+          _fullNameController.text.trim(),
           _emailController.text.trim(),
           _passwordController.text.trim(),
         );
@@ -71,7 +71,9 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return BaseScreen(
       title: 'RecipeDekho',
+      showDrawer: false,
       showBottomNav: false,
+      showFloatingActionButton: false,
       child: Stack(
         children: [
           Positioned.fill(
@@ -154,7 +156,7 @@ class _AuthPageState extends State<AuthPage> {
                             Column(
                               children: [
                                 TextFormField(
-                                  controller: _nameController,
+                                  controller: _fullNameController,
                                   style: const TextStyle(color: Colors.white),
                                   decoration: _inputDecoration('Full Name*'),
                                   validator: (value) {
@@ -219,16 +221,6 @@ class _AuthPageState extends State<AuthPage> {
                                 )
                               : ElevatedButton(
                                   onPressed: handleAuth,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFFFABF3),
-                                    foregroundColor: const Color(0xFF5B005B),
-                                    minimumSize:
-                                        const Size(double.infinity, 50),
-                                    textStyle: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
                                   child:
                                       Text(isRegistered ? 'Sign Up' : 'Login'),
                                 ),
